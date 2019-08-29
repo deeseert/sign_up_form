@@ -7,6 +7,7 @@ const Success = () => {
     <MuiThemeProvider>
       <div>
         <AppBar title="Registration Successful!" />
+        <br />
         <h1>Thank you!</h1>
         <p>
           Please verify your email address, you should have received an email

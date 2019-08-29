@@ -1,75 +1,90 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from "redux-form";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
-import TextField from "material-ui/TextField";
-import RaisedButton from "material-ui/RaisedButton";
+import isValidEmail from "sane-email-validation";
 
+let errors;
 const validate = values => {
-  const errors = {};
+  errors = {};
   if (!values.fullName) {
     errors.fullName = "Required";
   }
   if (!values.email) {
-    errors.email = "Required"
+    errors.email = "Required";
+  } else if (!isValidEmail(values.email)) {
+    errors.email = "Invalid Email";
   }
   if (!values.password) {
-    errors.password = "Required"
+    errors.password = "Required";
   }
-
   return errors;
-}
+};
+const createRenderer = render => ({ input, meta, type, label, ...rest }) => (
+  <div
+    className={[
+      meta.error && meta.touched ? "error" : "",
+      meta.active ? "active" : ""
+    ].join(" ")}
+  >
+    <label>{label}</label>
+    {render(input, label, type, rest)}
+    {meta.error && meta.touched && <span>{meta.error}</span>}
+  </div>
+);
 
-export class FormUserDetails extends Component {
+const RenderInput = createRenderer((input, label, type) => (
+  <input {...input} placeholder={label} type={type} />
+));
+
+class FormUserDetails extends Component {
   continue = event => {
     event.preventDefault();
     this.props.nextStep();
   };
 
   render() {
-    const { values, handleChange } = this.props;
+    const { submitting } = this.props;
     return (
-      <MuiThemeProvider>
-        <React.Fragment>
+      <form>
+        <MuiThemeProvider>
           <AppBar title="Enter User Details" />
-          <TextField
-            hintText="Enter Your Full Name"
-            floatingLabelText="Full Name"
-            required
-            onChange={handleChange("name")}
-            defaultValue={values.name}
-          />
-          <br />
-          <TextField
-            hintText="Enter Your Role"
-            floatingLabelText="Role"
-            onChange={handleChange("role")}
-            defaultValue={values.role}
-          />
-          <br />
-          <TextField
-            hintText="Enter Your Email"
-            floatingLabelText="Email"
-            onChange={handleChange("email")}
-            defaultValue={values.email}
-          />
-          <br />
-          <TextField
-            hintText="Enter Your Password"
-            floatingLabelText="Password"
-            type="password"
-            onChange={handleChange("password")}
-            defaultValue={values.password}
-          />
-          <br />
-          <RaisedButton
-            label="Continue"
-            primary={true}
-            style={styles.button}
-            onClick={this.continue}
-          />
-        </React.Fragment>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+        <br />
+        <Field
+          name="fullName"
+          label="Full Name"
+          type="text"
+          component={RenderInput}
+        />
+        <br />
+        <Field name="role" label="Role" type="text" component={RenderInput} />
+        <br />
+        <Field name="email" label="Email" type="text" component={RenderInput} />
+        <br />
+        <Field
+          name="password"
+          type="password"
+          component={RenderInput}
+          label="Password"
+        />
+        <br />
+        <button
+          disabled={
+            errors.fullName === "Required" ||
+            errors.email === "Required" ||
+            errors.email === "Invalid Email" ||
+            errors.password === "Required"
+              ? true
+              : false
+          }
+          onClick={this.continue}
+          className="btn btn-info"
+          style={styles.button}
+        >
+          CONTINUE
+        </button>
+      </form>
     );
   }
 }
@@ -79,5 +94,11 @@ const styles = {
     margin: 15
   }
 };
+
+FormUserDetails = reduxForm({
+  form: "userDetails",
+  destroyOnUnmount: false,
+  validate
+})(FormUserDetails);
 
 export default FormUserDetails;

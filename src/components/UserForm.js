@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FormUserDetails from "./FormUserDetails";
 import PrivacyDetails from "./PrivacyDetails";
 import Success from "./Success";
+import { Field, reduxForm } from "redux-form";
 
 export class UserForm extends Component {
   state = {
@@ -47,6 +48,13 @@ export class UserForm extends Component {
     });
   };
 
+  // Handle Submit
+  submit = event => {
+    event.preventDefault();
+    // Do something with this object data and then...
+    this.props.nextStep();
+  };
+
   render() {
     const {
       step,
@@ -81,9 +89,8 @@ export class UserForm extends Component {
           <PrivacyDetails
             nextStep={this.nextStep}
             prevStep={this.prevStep}
-            handleMarketingUpdates={this.handleMarketingUpdates}
-            handleMarketingComm={this.handleMarketingComm}
-            values={values}
+            handleSubmit={this.handleSubmit}
+            values={this.props.values}
           />
         );
       case 3:

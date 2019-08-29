@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Field, reduxForm } from "redux-form";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
@@ -18,47 +19,68 @@ export class PrivacyDetails extends Component {
   };
 
   render() {
-    const { values, handleMarketingUpdates, handleMarketingComm } = this.props;
+    const { pristine, submitting } = this.props;
+    const label1 =
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+    const label2 =
+      "Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever ";
     return (
-      <MuiThemeProvider>
-        <React.Fragment>
-          <AppBar title="Set Privacy Options" />
-          <br />
-          <Checkbox
-            label="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-            onClick={handleMarketingUpdates}
-            checked={values.marketingUpdates}
-            value="marketingUpdates"
-          />
-          <br />
-          <Checkbox
-            label="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-            onClick={handleMarketingComm}
-            checked={values.marketingCommunications}
-            value="marketingCommunications"
-          />
-          <RaisedButton
-            label="Back"
-            primary={true}
-            style={styles.button}
-            onClick={this.back}
-          />
-          <RaisedButton
-            label="Submit"
-            primary={true}
-            style={styles.button}
-            onClick={this.submit}
-          />
-        </React.Fragment>
-      </MuiThemeProvider>
+      <form>
+        <MuiThemeProvider>
+          <React.Fragment>
+            <AppBar title="Set Privacy Options" />
+            <br />
+            <div>
+              <Field name="updates" component={renderCheckbox} label={label1} />
+            </div>
+            <div>
+              <Field
+                name="communication"
+                component={renderCheckbox}
+                label={label2}
+              />
+            </div>
+            <br />
+            <div>
+              <button
+                type="button"
+                disabled={pristine || submitting}
+                onClick={this.back}
+              >
+                BACK
+              </button>
+              <button
+                type="submit"
+                disabled={pristine || submitting}
+                onClick={this.submit}
+              >
+                Submit
+              </button>
+            </div>
+          </React.Fragment>
+        </MuiThemeProvider>
+      </form>
     );
   }
 }
+
+const renderCheckbox = ({ input, label }) => (
+  <Checkbox
+    label={label}
+    checked={input.value ? true : false}
+    onCheck={input.onChange}
+  />
+);
 
 const styles = {
   button: {
     margin: 15
   }
 };
+
+PrivacyDetails = reduxForm({
+  form: "marketing",
+  destroyOnUnmount: false
+})(PrivacyDetails);
 
 export default PrivacyDetails;
