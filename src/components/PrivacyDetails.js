@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
-import RaisedButton from "material-ui/RaisedButton";
 import Checkbox from "material-ui/Checkbox";
 
 export class PrivacyDetails extends Component {
   submit = event => {
     event.preventDefault();
-    console.log(this.props.values);
-    // Do something with this object data and then...
     this.props.nextStep();
+    console.log(this.props.userDetails);
   };
 
   back = event => {
@@ -20,10 +19,9 @@ export class PrivacyDetails extends Component {
 
   render() {
     const { pristine, submitting } = this.props;
-    const label1 =
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+    const label1 = "Receive updates about Tray.io product by email";
     const label2 =
-      "Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever Whatever ";
+      "Receive communication by email for other products created by Tray.io team";
     return (
       <form>
         <MuiThemeProvider>
@@ -31,10 +29,15 @@ export class PrivacyDetails extends Component {
             <AppBar title="Set Privacy Options" />
             <br />
             <div>
-              <Field name="updates" component={renderCheckbox} label={label1} />
+              <Field
+                name="updates"
+                component={renderCheckbox}
+                label={<CustomLabel style={styles.label} />}
+              />
             </div>
             <div>
               <Field
+                id="checkbox"
                 name="communication"
                 component={renderCheckbox}
                 label={label2}
@@ -43,18 +46,18 @@ export class PrivacyDetails extends Component {
             <br />
             <div>
               <button
-                type="button"
-                disabled={pristine || submitting}
+                style={styles.button}
+                className="btn btn-info"
                 onClick={this.back}
               >
                 BACK
               </button>
               <button
-                type="submit"
                 disabled={pristine || submitting}
+                className="btn btn-success"
                 onClick={this.submit}
               >
-                Submit
+                SUBMIT
               </button>
             </div>
           </React.Fragment>
@@ -72,15 +75,28 @@ const renderCheckbox = ({ input, label }) => (
   />
 );
 
+const CustomLabel = () => {
+  return (
+    <label style={styles.label}>
+      Receive updates about Tray.io product by email
+    </label>
+  );
+};
+
 const styles = {
-  button: {
-    margin: 15
-  }
+  button: { margin: 15 },
+  label: { "text-align": "left" }
+};
+
+const mapStateToProps = state => {
+  return {
+    userDetails: state.form.userDetails.values
+  };
 };
 
 PrivacyDetails = reduxForm({
-  form: "marketing",
+  form: "userDetails",
   destroyOnUnmount: false
-})(PrivacyDetails);
+})(connect(mapStateToProps)(PrivacyDetails));
 
 export default PrivacyDetails;
