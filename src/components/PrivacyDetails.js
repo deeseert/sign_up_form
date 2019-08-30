@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import Checkbox from "material-ui/Checkbox";
+import Typography from "@material-ui/core/Typography";
 
 export class PrivacyDetails extends Component {
   submit = event => {
@@ -28,21 +29,23 @@ export class PrivacyDetails extends Component {
           <React.Fragment>
             <AppBar title="Set Privacy Options" />
             <br />
-            <div>
-              <Field
-                name="updates"
-                component={renderCheckbox}
-                label={<CustomLabel style={styles.label} />}
-              />
-            </div>
-            <div>
-              <Field
-                id="checkbox"
-                name="communication"
-                component={renderCheckbox}
-                label={label2}
-              />
-            </div>
+            <Typography align="left">
+              <div>
+                <Field
+                  name="updates"
+                  component={renderCheckbox}
+                  label={<CustomLabel style={styles.label} />}
+                />
+              </div>
+              <div>
+                <Field
+                  id="checkbox"
+                  name="communication"
+                  component={renderCheckbox}
+                  label={label2}
+                />
+              </div>
+            </Typography>
             <br />
             <div>
               <button
@@ -85,7 +88,7 @@ const CustomLabel = () => {
 
 const styles = {
   button: { margin: 15 },
-  label: { "text-align": "left" }
+  label: { align: "left" }
 };
 
 const mapStateToProps = state => {
