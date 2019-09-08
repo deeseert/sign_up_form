@@ -1,25 +1,24 @@
-import React, { Component } from "react";
-import FormUserDetails from "./FormUserDetails";
-import PrivacyDetails from "./PrivacyDetails";
-import Success from "./Success";
-import { Field, reduxForm } from "redux-form";
+import React, { Component } from 'react';
+import FormUserDetails from './FormUserDetails';
+import PrivacyDetails from './PrivacyDetails';
+import Success from './Success';
 
 export class UserForm extends Component {
   state = {
     step: 1,
-    name: "",
-    role: "",
-    email: "",
-    password: "",
+    name: '',
+    role: '',
+    email: '',
+    password: '',
     marketingUpdates: false,
-    marketingCommunications: false
+    marketingCommunications: false,
   };
 
   // Proceed to the next step
   nextStep = () => {
     const { step } = this.state;
     this.setState({
-      step: step + 1
+      step: step + 1,
     });
   };
 
@@ -27,12 +26,12 @@ export class UserForm extends Component {
   prevStep = () => {
     const { step } = this.state;
     this.setState({
-      step: step - 1
+      step: step - 1,
     });
   };
 
   // Handle field change
-  handleChange = input => event => {
+  handleChange = (input) => (event) => {
     this.setState({ [input]: event.target.value });
   };
 
@@ -44,12 +43,12 @@ export class UserForm extends Component {
   // Handle checkboxes
   handleMarketingComm = () => {
     this.setState({
-      marketingCommunications: !this.state.marketingCommunications
+      marketingCommunications: !this.state.marketingCommunications,
     });
   };
 
   // Handle Submit
-  submit = event => {
+  submit = (event) => {
     event.preventDefault();
     // Do something with this object data and then...
     this.props.nextStep();
@@ -63,7 +62,7 @@ export class UserForm extends Component {
       email,
       password,
       marketingUpdates,
-      marketingCommunications
+      marketingCommunications,
     } = this.state;
     const values = {
       name,
@@ -71,7 +70,7 @@ export class UserForm extends Component {
       email,
       password,
       marketingUpdates,
-      marketingCommunications
+      marketingCommunications,
     };
 
     // eslint-disable-next-line default-case

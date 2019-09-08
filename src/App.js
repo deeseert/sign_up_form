@@ -1,10 +1,10 @@
-import React from "react";
-import "./App.css";
-import { Provider } from "react-redux";
-import store from "./store";
-import styled, { css } from "styled-components";
+import React from 'react';
+import './App.css';
+import { Provider } from 'react-redux';
+import store from './store';
+import styled, { css } from 'styled-components';
 
-import UserForm from "./components/UserForm";
+import UserForm from './components/UserForm';
 function App() {
   return (
     <Wrapper>
@@ -34,11 +34,6 @@ const paperPlane = css`
 const plus = css`
   ${icon}
   content: '\f067';
-`;
-
-const trash = css`
-  ${icon}
-  content: '\f1f8';
 `;
 
 const exclamation = css`
@@ -74,11 +69,11 @@ const btn = (light, dark) => css`
 `;
 
 const btnDefault = css`
-  ${btn("#ffffff", "#d5d5d5")}
+  ${btn('#ffffff', '#d5d5d5')}
   color: #555;
 `;
 
-const btnPrimary = btn("#4f93ce", "#285f8f");
+const btnPrimary = btn('#4f93ce', '#285f8f');
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -128,10 +123,10 @@ const Wrapper = styled.div`
     }
     button {
       margin: 10px;
-      &[type="button"] {
+      &[type='button'] {
         ${btnDefault};
       }
-      &[type="submit"] {
+      &[type='submit'] {
         ${btnPrimary};
         &:before {
           ${paperPlane} margin-right: 5px;

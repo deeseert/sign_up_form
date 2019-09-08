@@ -1,31 +1,31 @@
-import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppBar from "material-ui/AppBar";
-import isValidEmail from "sane-email-validation";
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import isValidEmail from 'sane-email-validation';
 
 let errors;
-const validate = values => {
+const validate = (values) => {
   errors = {};
   if (!values.fullName) {
-    errors.fullName = "Required";
+    errors.fullName = 'Required';
   }
   if (!values.email) {
-    errors.email = "Required";
+    errors.email = 'Required';
   } else if (!isValidEmail(values.email)) {
-    errors.email = "Invalid Email";
+    errors.email = 'Invalid Email';
   }
   if (!values.password) {
-    errors.password = "Required";
+    errors.password = 'Required';
   }
   return errors;
 };
-const createRenderer = render => ({ input, meta, type, label, ...rest }) => (
+const createRenderer = (render) => ({ input, meta, type, label, ...rest }) => (
   <div
     className={[
-      meta.error && meta.touched ? "error" : "",
-      meta.active ? "active" : ""
-    ].join(" ")}
+      meta.error && meta.touched ? 'error' : '',
+      meta.active ? 'active' : '',
+    ].join(' ')}
   >
     <label>{label}</label>
     {render(input, label, type, rest)}
@@ -38,43 +38,32 @@ const RenderInput = createRenderer((input, label, type) => (
 ));
 
 class FormUserDetails extends Component {
-  continue = event => {
+  continue = (event) => {
     event.preventDefault();
     this.props.nextStep();
   };
 
   render() {
-    const { submitting } = this.props;
     return (
       <form>
         <MuiThemeProvider>
           <AppBar title="Enter User Details" />
         </MuiThemeProvider>
         <br />
-        <Field
-          name="fullName"
-          label="Full Name"
-          type="text"
-          component={RenderInput}
-        />
+        <Field name="fullName" label="Full Name" type="text" component={RenderInput} />
         <br />
         <Field name="role" label="Role" type="text" component={RenderInput} />
         <br />
         <Field name="email" label="Email" type="text" component={RenderInput} />
         <br />
-        <Field
-          name="password"
-          type="password"
-          component={RenderInput}
-          label="Password"
-        />
+        <Field name="password" type="password" component={RenderInput} label="Password" />
         <br />
         <button
           disabled={
-            errors.fullName === "Required" ||
-            errors.email === "Required" ||
-            errors.email === "Invalid Email" ||
-            errors.password === "Required"
+            errors.fullName === 'Required' ||
+            errors.email === 'Required' ||
+            errors.email === 'Invalid Email' ||
+            errors.password === 'Required'
               ? true
               : false
           }
@@ -91,14 +80,14 @@ class FormUserDetails extends Component {
 
 const styles = {
   button: {
-    margin: 15
-  }
+    margin: 15,
+  },
 };
 
 FormUserDetails = reduxForm({
-  form: "userDetails",
+  form: 'userDetails',
   destroyOnUnmount: false,
-  validate
+  validate,
 })(FormUserDetails);
 
 export default FormUserDetails;

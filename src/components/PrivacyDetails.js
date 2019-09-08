@@ -1,28 +1,27 @@
-import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppBar from "material-ui/AppBar";
-import Checkbox from "material-ui/Checkbox";
-import Typography from "@material-ui/core/Typography";
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import Checkbox from 'material-ui/Checkbox';
+import Typography from '@material-ui/core/Typography';
 
 export class PrivacyDetails extends Component {
-  submit = event => {
+  submit = (event) => {
     event.preventDefault();
     this.props.nextStep();
     console.log(this.props.userDetails);
   };
 
-  back = event => {
+  back = (event) => {
     event.preventDefault();
     this.props.prevStep();
   };
 
   render() {
     const { pristine, submitting } = this.props;
-    const label1 = "Receive updates about Tray.io product by email";
     const label2 =
-      "Receive communication by email for other products created by Tray.io team";
+      'Receive communication by email for other products created by Tray.io team';
     return (
       <form>
         <MuiThemeProvider>
@@ -48,11 +47,7 @@ export class PrivacyDetails extends Component {
             </Typography>
             <br />
             <div>
-              <button
-                style={styles.button}
-                className="btn btn-info"
-                onClick={this.back}
-              >
+              <button style={styles.button} className="btn btn-info" onClick={this.back}>
                 BACK
               </button>
               <button
@@ -71,35 +66,29 @@ export class PrivacyDetails extends Component {
 }
 
 const renderCheckbox = ({ input, label }) => (
-  <Checkbox
-    label={label}
-    checked={input.value ? true : false}
-    onCheck={input.onChange}
-  />
+  <Checkbox label={label} checked={input.value ? true : false} onCheck={input.onChange} />
 );
 
 const CustomLabel = () => {
   return (
-    <label style={styles.label}>
-      Receive updates about Tray.io product by email
-    </label>
+    <label style={styles.label}>Receive updates about Tray.io product by email</label>
   );
 };
 
 const styles = {
   button: { margin: 15 },
-  label: { align: "left" }
+  label: { align: 'left' },
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    userDetails: state.form.userDetails.values
+    userDetails: state.form.userDetails.values,
   };
 };
 
 PrivacyDetails = reduxForm({
-  form: "userDetails",
-  destroyOnUnmount: false
+  form: 'userDetails',
+  destroyOnUnmount: false,
 })(connect(mapStateToProps)(PrivacyDetails));
 
 export default PrivacyDetails;
